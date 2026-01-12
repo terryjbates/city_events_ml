@@ -1,30 +1,30 @@
 from setuptools import setup, find_packages
 
-from repo_example import __version__
+# from city_events_ml import __version__
 
 
 setup(
-    name="repo-example",
-    description="A minimal example of a Python project",
-    long_description=open("README.md").read(),
-    version=__version__,
-    author="Your name",
-    packages=find_packages(),
-    install_requires=[],
-    python_requires=">=3.6",
+    name="city-events-ml",
+    description="SF safety event frequency modeling pipelines",
+    long_description=open("README.md", encoding="utf-8").read(),
+    # version=__version__,
+    author="Terry Bates",
+    # packages=find_packages(),
+    packages=["city_events_ml"],
+    install_requires=[
+        "skops>=0.13.0"
+    ],
+    python_requires=">=3.12",
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Science/Research",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: BSD License",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
-        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.12",
         "Topic :: Software Development",
         "Operating System :: POSIX",
         "Operating System :: Unix",
     ],
-    license="Appache-2.0",
+    license="Apache-2.0",
 )
