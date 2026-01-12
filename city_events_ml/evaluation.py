@@ -24,14 +24,18 @@ class MetricsStore:
         self,
         *,
         model: str,
-        split: str,  # "train" or "test" or "cv"
+        split: str,
         metrics: dict[str, float],
+        category: str | None = None,
         extra: dict | None = None,
     ) -> None:
         row = {"model": model, "split": split, **metrics}
+        if category is not None:
+            row["category"] = category
         if extra:
             row.update(extra)
         self.rows.append(row)
+
 
     def to_frame(self) -> pd.DataFrame:
         df = pd.DataFrame(self.rows)
@@ -50,6 +54,7 @@ def evaluate_model(
     X_test: pd.DataFrame,
     y_test: pd.Series,
     store: MetricsStore | None = None,
+    category: str | None = None, 
 ) -> pd.DataFrame:
     pipeline.fit(X_train, y_train)
 
@@ -60,8 +65,8 @@ def evaluate_model(
     te = compute_metrics(y_test, yhat_te)
 
     if store is not None:
-        store.log(model=model_name, split="train", metrics=tr)
-        store.log(model=model_name, split="test", metrics=te)
+        store.log(model=model_name, split="train", metrics=tr, category=category)
+        store.log(model=model_name, split="test", metrics=te, category=category)
 
     return pd.DataFrame([{"model": model_name, "split": "train", **tr},
                          {"model": model_name, "split": "test", **te}]).set_index(["model","split"])
