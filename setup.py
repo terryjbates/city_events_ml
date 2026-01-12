@@ -5,6 +5,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="city-events-ml",
+    version="0.1.0",
     description="SF safety event frequency modeling pipelines",
     long_description=open("README.md", encoding="utf-8").read(),
     # version=__version__,
@@ -12,8 +13,14 @@ setup(
     # packages=find_packages(),
     packages=["city_events_ml"],
     install_requires=[
-        "skops>=0.13.0"
+        # core deps only; keep this conservative
+        "numpy",
+        "pandas",
+        "scikit-learn",
     ],
+    extras_require={
+        "skops": ["skops>=0.11,<0.14"],
+    },
     python_requires=">=3.12",
     classifiers=[
         "Development Status :: 4 - Beta",
