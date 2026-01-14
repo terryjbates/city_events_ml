@@ -1,11 +1,25 @@
+from __future__ import annotations
+
+import re
+from pathlib import Path
+
 from setuptools import setup, find_packages
 
 # from city_events_ml import __version__
 
 
+def read_version() -> str:
+    init_py = Path(__file__).parent / "city_events_ml" / "__init__.py"
+    text = init_py.read_text(encoding="utf-8")
+    m = re.search(r'^__version__\s*=\s*["\']([^"\']+)["\']', text, re.MULTILINE)
+    if not m:
+        raise RuntimeError("Could not find __version__ in city_events_ml/__init__.py")
+    return m.group(1)
+
+
 setup(
     name="city-events-ml",
-    version="0.1.0",
+    version=read_version(),
     description="SF safety event frequency modeling pipelines",
     long_description=open("README.md", encoding="utf-8").read(),
     # version=__version__,
