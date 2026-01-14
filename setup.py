@@ -33,6 +33,7 @@ setup(
         "scikit-learn",
     ],
     extras_require={
+        "test": ["pytest", "pytest-cov"],
         "skops": ["skops>=0.11,<0.14"],
     },
     python_requires=">=3.12",
