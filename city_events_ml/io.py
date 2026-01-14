@@ -43,11 +43,11 @@ def build_target_table(
 
     event_counts = (
         df.assign(interval_start=interval_start)
-          .groupby([neighborhood_col, "interval_start"])
-          .size()
-          .rename("count")
-          .reset_index()
-          .rename(columns={neighborhood_col: "neighborhood"})
+        .groupby([neighborhood_col, "interval_start"])
+        .size()
+        .rename("count")
+        .reset_index()
+        .rename(columns={neighborhood_col: "neighborhood"})
     )
 
     # Build complete grid (dense time index per neighborhood)
@@ -63,8 +63,8 @@ def build_target_table(
 
     dense = (
         event_counts.set_index(["neighborhood", "interval_start"])
-                   .reindex(full_index, fill_value=0)
-                   .reset_index()
+        .reindex(full_index, fill_value=0)
+        .reset_index()
     )
 
     dense["count"] = dense["count"].astype("int64")

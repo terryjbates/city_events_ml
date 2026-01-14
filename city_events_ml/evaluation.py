@@ -11,7 +11,7 @@ from sklearn.inspection import permutation_importance
 
 def compute_metrics(y_true: pd.Series, y_pred: np.ndarray) -> dict[str, float]:
     return {
-        "RMSE": mean_squared_error(y_true, y_pred, multioutput='raw_values'),
+        "RMSE": mean_squared_error(y_true, y_pred, multioutput="raw_values"),
         "MAE": mean_absolute_error(y_true, y_pred),
         "MaxError": max_error(y_true, y_pred),
         "R2": r2_score(y_true, y_pred),
@@ -38,7 +38,6 @@ class MetricsStore:
             row.update(extra)
         self.rows.append(row)
 
-
     def to_frame(self) -> pd.DataFrame:
         df = pd.DataFrame(self.rows)
         # nice pivot similar to what you’ve been printing
@@ -56,7 +55,7 @@ def evaluate_model(
     X_test: pd.DataFrame,
     y_test: pd.Series,
     store: MetricsStore | None = None,
-    category: str | None = None, 
+    category: str | None = None,
 ) -> pd.DataFrame:
     pipeline.fit(X_train, y_train)
 
@@ -70,8 +69,12 @@ def evaluate_model(
         store.log(model=model_name, split="train", metrics=tr, category=category)
         store.log(model=model_name, split="test", metrics=te, category=category)
 
-    return pd.DataFrame([{"model": model_name, "split": "train", **tr},
-                         {"model": model_name, "split": "test", **te}]).set_index(["model","split"])
+    return pd.DataFrame(
+        [
+            {"model": model_name, "split": "train", **tr},
+            {"model": model_name, "split": "test", **te},
+        ]
+    ).set_index(["model", "split"])
 
 
 def get_feature_names(pipeline) -> list[str]:
@@ -97,11 +100,13 @@ def linear_feature_importance(pipeline) -> pd.DataFrame:
     importance = np.abs(coefs)
 
     return (
-        pd.DataFrame({
-            "feature": feature_names,
-            "coefficient": coefs,
-            "importance": importance,
-        })
+        pd.DataFrame(
+            {
+                "feature": feature_names,
+                "coefficient": coefs,
+                "importance": importance,
+            }
+        )
         .sort_values("importance", ascending=False)
         .reset_index(drop=True)
     )
@@ -150,7 +155,6 @@ def hgbr_permutation_importance(
         .sort_values("importance_mean", ascending=False)
         .reset_index(drop=True)
     )
-
 
 
 def plot_feature_importance(df, value_col, title, top_n=15):

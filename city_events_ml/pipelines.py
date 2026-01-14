@@ -14,7 +14,15 @@ from sklearn.dummy import DummyRegressor
 @dataclass(frozen=True)
 class FeatureSpec:
     categorical: tuple[str, ...] = ("neighborhood",)
-    numeric: tuple[str, ...] = ("year","month","day","dow_sin","dow_cos","hour_sin","hour_cos")
+    numeric: tuple[str, ...] = (
+        "year",
+        "month",
+        "day",
+        "dow_sin",
+        "dow_cos",
+        "hour_sin",
+        "hour_cos",
+    )
 
 
 def make_preprocess(
@@ -25,7 +33,11 @@ def make_preprocess(
     num_transform = StandardScaler() if scale_numeric else "passthrough"
     return ColumnTransformer(
         transformers=[
-            ("cat", OneHotEncoder(handle_unknown="ignore", sparse_output=False), list(spec.categorical)),
+            (
+                "cat",
+                OneHotEncoder(handle_unknown="ignore", sparse_output=False),
+                list(spec.categorical),
+            ),
             ("num", num_transform, list(spec.numeric)),
         ],
         remainder="drop",
@@ -74,6 +86,7 @@ def make_dummy_pipeline(strategy: str = "mean") -> Pipeline:
     """
     model = DummyRegressor(strategy=strategy)
     return Pipeline([("model", model)])
+
 
 # Dummy pipeline usage
 # from city_events_ml.pipelines import make_dummy_pipeline
