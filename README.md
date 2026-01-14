@@ -1,4 +1,4 @@
-# city-event-ml
+# city-events-ml
 
 Train and evaluate machine learning pipelines that predict the **frequency (count)** of San Francisco safety events per **6-hour interval** and **neighborhood**, with one model per event category.
 
@@ -9,11 +9,11 @@ This repository contains:
 - Lightweight tests under `tests/`
 
 ---
-## Project goal
+## Project Goal
 
-Given SF 311-style call/event data, build a model that predicts:
+Given SF 311-style call/event data, 
 
-> the number of events in a given neighborhood during a given 6-hour time window.
+> Build a model that predicts the number of events in a given neighborhood during a given 6-hour time window.
 
 The workflow is designed to satisfy an assignment requiring:
 
@@ -26,7 +26,30 @@ The workflow is designed to satisfy an assignment requiring:
 - Optional model persistence using `skops`
 
 ---
-## How to use this package (functional guide)
+## Installation
+
+1. (optional) create a virtual environement
+   ```bash
+   conda env create -n example-env python=3.8
+   conda activate example-env
+   ```
+2. Install editable package
+    ```
+    conda activate predicting-city-events
+    # python -m pip install -U pip
+    cd city-events-ml
+    pip install -e .
+
+    ```
+
+3. Install the package with `pip`
+   ```bash
+   # 
+   pip install city_events_ml-0.1.0-py2.py3-none-any.whl
+   ```
+
+---
+## How to Use This Package (functional guide)
 
 This package is designed to support an end-to-end workflow:
 
@@ -321,6 +344,17 @@ report_all = results_all.pivot_table(
     aggfunc="first",
 )
 print(report_all)
+
+# After model creation assess importance
+# Ridge
+# ridge_imp = linear_feature_importance(ridge)
+# plot_feature_importance(ridge_imp, "importance", "Ridge feature importance")
+
+# HGBR
+# hgbr_imp = hgbr_permutation_importance(hgbr, X_test, y_test)
+# plot_feature_importance(hgbr_imp, "importance_mean", "HGBR permutation importance")
+
+
 ```
 
 
@@ -361,20 +395,6 @@ print(report_all)
     └── test_smoke.py
 
 ```
-## Installation
-
-1. (optional) create a virtual environement
-   ```bash
-   conda env create -n example-env python=3.8
-   conda activate example-env
-   ```
-
-2. Install the package
-   ```bash
-   # 
-   pip install city_events_ml-0.1.0-py2.py3-none-any.whl
-   ```
-
 
 ### Running tests
 
